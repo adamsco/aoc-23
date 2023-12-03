@@ -1,10 +1,14 @@
 const { CreateLineReader } = require("../_util/LineReader");
 
-const doStuff = async () => {
-  const lr = CreateLineReader("./input.txt");
+const run = async (filename = "./sample.txt") => {
+  const lr = CreateLineReader(filename);
   for await (const line of lr) {
     // do stuff
   }
+  const answer = 3;
+  return answer;
 };
 
-doStuff();
+module.exports = {
+  RunTask: (filename) => run(filename),
+};
