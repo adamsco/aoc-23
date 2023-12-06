@@ -9,13 +9,7 @@ const doStuff = async () => {
   let sum = 0;
   const lr = CreateLineReader("./input.txt");
   for await (const line of lr) {
-    // do stuff
     [game, scores] = line.split(":");
-    // console.log("split", { game, scores, line });
-
-    const [_, gameIdStr] = game.split(" ");
-    const gameId = parseInt(clean(gameIdStr));
-
     const pairs = scores.split(/,|;/);
 
     const map = {
