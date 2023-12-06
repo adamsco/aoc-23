@@ -105,8 +105,6 @@ const run = async (filename = "./input.txt") => {
   return lowest;
 };
 
-run();
-
 module.exports = {
   RunTask: (filename) => run(filename),
 };

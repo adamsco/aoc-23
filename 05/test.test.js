@@ -1,6 +1,6 @@
-// const { RunTask } = require("./task2");
+const { RunTask } = require("./task2");
 
-const expectedOutput = 46;
+const expectedOutput = 6472060;
 
 test("05 - task2", async () => {
   // const answer = await RunTask("./05/input.txt");
