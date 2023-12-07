@@ -43,6 +43,37 @@ const testLookup = (lookup, seed) => {
   return seed >= lookup.fromStart && seed < lookup.fromStart + lookup.range;
 };
 
+const findNextIntersection = (lookups, seed) => {
+  for (const lookup of lookups) {
+    if (testLookup(lookup, seed)) {
+      return 0;
+    }
+  }
+  let smallest = Number.MAX_SAFE_INTEGER;
+  for (const lookup of lookups) {
+    const diff = lookup.fromStart - seed;
+    if (diff < smallest && diff > 0) {
+      smallest = diff;
+    }
+  }
+  return smallest;
+};
+const findNextNonIntersection = (lookups, seed) => {
+  for (const lookup of lookups) {
+    if (testLookup(lookup, seed)) {
+      return 0;
+    }
+  }
+  let smallest = Number.MAX_SAFE_INTEGER;
+  for (const lookup of lookups) {
+    const diff = lookup.fromStart - seed;
+    if (diff < smallest && diff > 0) {
+      smallest = diff;
+    }
+  }
+  return smallest;
+};
+
 const calcSeed = (seed) => {
   let activeSeed = seed;
   for (const lookup of masterMap) {
@@ -128,13 +159,34 @@ const combineMaps = (a, b) => {
   const combined = [];
 
   // todo: optimize by not looping every single value like a child
+  let ind = 0;
   for (const aVal of aVals) {
+    ind++;
+    console.log("new aVal", { a: aVals.length, b: bVals.length, index: ind });
     let currentRange = {
       offset: aVal.offset,
       range: 0,
       fromStart: aVal.fromStart,
     };
     let isOverlapping = undefined;
+    // what if entire aVal has no overlap with any b
+    let thisDidNotWork = false;
+    for (const bVal of bVals) {
+      if (
+        bVal.fromStart > aVal.fromStart + aVal.range + aVal.offset &&
+        bVal.fromStart + bVal.range < aVal.fromStart + aVal.offset
+      ) {
+        // this is fine
+        continue;
+      } else {
+        console.log("f1");
+        thisDidNotWork = true;
+        break;
+      }
+    }
+    const nextIntersection = findNextIntersection();
+    for (let i = 0; i < aVal.range; i++) {}
+
     for (let i = 0; i < aVal.range; i++) {
       const pointer = aVal.fromStart + i + aVal.offset;
       let hit = false;
@@ -178,6 +230,26 @@ const combineMaps = (a, b) => {
   console.log("p1 complete");
   // then do reverse-check
   for (const bVal of bVals) {
+    console.log("new bVal");
+
+    for (const combVal of combined) {
+      if (
+        bVal.fromStart >
+          combined.fromStart + combined.range + combined.offset &&
+        bVal.fromStart + bVal.range < combined.fromStart + combined.offset
+      ) {
+        // this is fine
+        continue;
+      } else {
+        thisDidNotWork = true;
+      }
+    }
+    if (!thisDidNotWork) {
+      console.log("improvement! 2");
+
+      combined.push({ ...bVal });
+      continue;
+    }
     let currentRange = {
       offset: bVal.offset,
       range: 0,
