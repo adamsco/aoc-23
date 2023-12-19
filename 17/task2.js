@@ -230,7 +230,7 @@ const run = async (filename = "./input.txt") => {
   console.log("result", best);
   return best;
 };
-run();
+
 module.exports = {
   RunTask: (filename) => run(filename),
 };
