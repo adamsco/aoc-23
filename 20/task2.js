@@ -216,7 +216,7 @@ const pressButtonXTimes = (x) => {
 };
 
 let timer = Date.now();
-const run = async (filename = "./input.txt") => {
+const run = (filename = "./input.txt") => {
   const lines = fs.readFileSync(filename, "utf8").split("\n");
   for (const line of lines) {
     const [senderRaw, receiversRaw] = line.split(" -> ");

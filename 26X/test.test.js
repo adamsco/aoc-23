@@ -2,10 +2,10 @@ const { RunTask } = require("./task1");
 
 const expectedOutput = 46;
 
-const day = "2X";
+const day = "X";
 
-test("0" + day + " - task1", async () => {
-  // const answer = await RunTask("./" + day + "/sample.txt");
+test(day + " - task1", () => {
+  // const answer = RunTask("./" + day + "/sample.txt");
 
   expect(1).toBe(1);
   // expect(answer).toBe(expectedOutput);
